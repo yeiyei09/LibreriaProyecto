@@ -12,5 +12,9 @@ public class Libro {
         this.fecha = fecha;
         this.precio = precio;
     }
+
+    public void mostrarLibros(int decision, Libro[] libro){
+
+    }
     
 }
