@@ -1,0 +1,36 @@
+import java.util.Scanner;
+
+
+        Libro[] libros;
+
+        Scanner sc = new Scanner(System.in);
+        boolean buscarNuevo = true;
+
+        while (buscarNuevo) {
+            System.out.println("Si desea buscar por título del libro ingrese 1 o si es por nombre del autor ingrese 2");
+            int opcion = sc.nextInt();
+            sc.nextLine(); 
+
+            switch (opcion) {
+                case 1:
+                    System.out.println("Ingrese el título del libro a buscar:");
+                    String titulo = sc.nextLine();
+                    boolean encontrado = false;
+                    for (Libro libro : libros) {
+                        if (libro.titulo.equalsIgnoreCase(titulo)) {
+                            System.out.println("Libro encontrado:");
+                            System.out.println(libro.titulo  + libro.nombreA + " " + libro.apellidoA);
+                            encontrado = true;
+                            break;
+                        }else{
+                    
+                        System.out.println("No se encontró libro.");
+                        }  
+                    
+                
+            
+
+            
+                     }
+            }
+        }
