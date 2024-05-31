@@ -16,20 +16,21 @@ public class Libro {
     //Metodo para ordenar alfabeticamente
     public void ordenarSeleccion(Libro[]libro){
         int mn;
-        String menor, aux;
+        String menor;
+        Libro aux;
         String[] nombres = new String[libro.length];
+        
         for (int i = 0; i < nombres.length; i++) {
             menor = libro[i].titulo;
             mn = i;
-            for (int j = i + 1; j < nombres|.length; j++) {
-                if(menor.compareTo(libro[j])>0){
-                    menor = vector[j];
+            for (int j = i + 1; j < nombres.length; j++) {
+                if(menor.compareTo(libro[j].titulo)>0){
                     mn = j;
                     
                 }
-                aux = vector[i];
-                vector[i] = vector[mn];
-                vector[mn] = aux;
+                aux = libro[i];
+                libro[i] = libro[mn];
+                libro[mn] = aux;
             }
         }
     }
