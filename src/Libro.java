@@ -14,27 +14,7 @@ public class Libro {
         this.vendidosDia = vendidosDia;
     }
     //Metodo para ordenar alfabeticamente
-    public void ordenarSeleccion(Libro[]libro){
-        int mn;
-        String menor;
-        Libro aux;
-        String[] nombres = new String[libro.length];
-        
-        for (int i = 0; i < nombres.length; i++) {
-            menor = libro[i].titulo;
-            mn = i;
-            for (int j = i + 1; j < nombres.length; j++) {
-                if(menor.compareTo(libro[j].titulo)>0){
-                    mn = j;
-                    
-                }
-                aux = libro[i];
-                libro[i] = libro[mn];
-                libro[mn] = aux;
-            }
-        }
-    }
-
+    
     //MetodoS para la RN 1
 
 
