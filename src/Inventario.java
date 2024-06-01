@@ -34,27 +34,28 @@ public class Inventario {
             
            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             System.out.println("Ingrese el titulo del libro");
-            tit = sc.next();
+            tit = sc.nextLine();
             
             System.out.println("Ingrese el nombre del autor de : "+tit);
-            nomA = sc.next();
+            nomA = sc.nextLine();
             
             System.out.println("Ingrese el apellido del autor de: "+tit);
-            apllA = sc.next();
+            apllA = sc.nextLine();
             
             System.out.println("Ingrese la editorial del libro "+tit);
-            editorial = sc.next();
+            editorial = sc.nextLine();
             
             System.out.println("Ingrese el ISBN del libro "+tit);
-            isbn = sc.next();
+            isbn = sc.nextLine();
             
             System.out.println("Ingrese la fecha en dd/mm/aa "+tit);
-            fechaC = sc.next();
+            fechaC = sc.nextLine();
             
             while(valido){
                 try {
                     System.out.println("Ingrese el precio de: "+tit);
                     precio  = sc.nextInt();
+                    sc.nextLine();
                     valido = false;
                 } catch (Exception e) {
                     System.out.println("Datos no válidos, ingrese de nuevo");
@@ -66,6 +67,7 @@ public class Inventario {
                 try{
                     System.out.println("Ingrese el numero de ejemplares que tiene: "+tit);
                     ejemplar = sc.nextInt();
+                    sc.nextLine();
                     valido = false;
                 }catch(Exception e){
                     System.out.println("Datos no válidos, ingrese de nuevo");
