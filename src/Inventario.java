@@ -29,6 +29,7 @@ public class Inventario {
         String tit, nomA, apllA, editorial, isbn, fechaC, opcion;
         int precio, vendidosDia, ejemplar;
         while(salir){
+            boolean existe = false;
             System.out.println("Ingrese los datos del libro");
             System.out.println("Ingrese el titulo del libro");
             tit = sc.next();
@@ -48,14 +49,22 @@ public class Inventario {
             System.out.println("Ingrese el numero de ejemplares que tiene: "+tit);
             ejemplar = sc.nextInt();
 
-            for(int i = 0; i<=Libreria.librosR; i++){
+            for(int i = 0; i<Libreria.librosR; i++){
                 if(libro[i].ISBN.equals(isbn)){
                     libro[i].ejemplares += ejemplar;
-                }else{
-                    libro[Libreria.librosR] = new Libro(tit, nomA, apllA, editorial, isbn, fechaC, precio, vendidosDia, ejemplar);
-                    Libreria.librosR += 1;
+                    existe = true;
+                    break;
                 }
             }
+            if(!existe){
+                if(Libreria.librosR < Libreria.lib.length){
+                    libro[Libreria.librosR] = new Libro(tit, nomA, apllA, editorial, isbn, fechaC, precio, vendidosDia, ejemplar);
+                    Libreria.librosR ++;
+                }else{
+                    System.out.println("NO HAY MAS ESPACIOS PARA LIBROS, VERIFIQUE EL ISBN SI QUIERE AGREGAR CANTIDADES EXISTENTES");
+                }
+            }
+ 
 
             System.out.println("¿Desea agregar otro libro?");
             opcion = sc.next();
@@ -63,7 +72,6 @@ public class Inventario {
                 salir = false;
             
         }
-
 
     }
 
