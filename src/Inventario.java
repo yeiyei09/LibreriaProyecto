@@ -27,27 +27,59 @@ public class Inventario {
     public void agg(Libro[]libro){
         boolean salir = true;
         String tit, nomA, apllA, editorial, isbn, fechaC, opcion;
-        int precio, vendidosDia, ejemplar;
+        int precio = 0, vendidosDia, ejemplar = 0;
         while(salir){
-            boolean existe = false;
+            boolean existe = false, valido = true;
             System.out.println("Ingrese los datos del libro");
+            
+           //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             System.out.println("Ingrese el titulo del libro");
             tit = sc.next();
+            
+            
             System.out.println("Ingrese el nombre del autor de : "+tit);
             nomA = sc.next();
+               
+            System.out.println("Ingrese el nombre del autor de : "+tit);
+            nomA = sc.next();
+            
             System.out.println("Ingrese el apellido del autor de: "+tit);
             apllA = sc.next();
+            
             System.out.println("Ingrese la editorial del libro "+tit);
             editorial = sc.next();
+            
             System.out.println("Ingrese el ISBN del libro "+tit);
             isbn = sc.next();
+            
             System.out.println("Ingrese la fecha en dd/mm/aa "+tit);
             fechaC = sc.next();
-            System.out.println("Ingrese el precio de: "+tit);
-            precio  = sc.nextInt();
+            
+            while(valido){
+                try {
+                    System.out.println("Ingrese el precio de: "+tit);
+                    precio  = sc.nextInt();
+                    valido = false;
+                } catch (Exception e) {
+                    System.out.println("Datos no válidos, ingrese de nuevo");
+                    sc.next();
+                }
+            }
+            valido = true;
+            while(valido){
+                try{
+                    System.out.println("Ingrese el numero de ejemplares que tiene: "+tit);
+                    ejemplar = sc.nextInt();
+                    valido = false;
+                }catch(Exception e){
+                    System.out.println("Datos no válidos, ingrese de nuevo");
+                    sc.next();
+                }
+            }
+
             vendidosDia = 0;
-            System.out.println("Ingrese el numero de ejemplares que tiene: "+tit);
-            ejemplar = sc.nextInt();
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             for(int i = 0; i<Libreria.librosR; i++){
                 if(libro[i].ISBN.equals(isbn)){
@@ -76,13 +108,5 @@ public class Inventario {
     }
 
 }
-/*
- * 
-         nombreA;
-         apellidoA;
-        this.editorial = editorial;
-       isbn;
-         fechaC;
-        precio;
-        vendidosDia;
- */
+
+
