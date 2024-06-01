@@ -24,11 +24,11 @@ public class Inventario {
     }
 
     //agregar libros
-    public void agg(Libro[]libro, int opcion){
-        boolean nuevoLibro = false, salir;
-        String tit, nomA, apllA, editorial, isbn, fechaC;
+    public void agg(Libro[]libro){
+        boolean salir = true;
+        String tit, nomA, apllA, editorial, isbn, fechaC, opcion;
         int precio, vendidosDia, ejemplar;
-        while(true){
+        while(salir){
             System.out.println("Ingrese los datos del libro");
             System.out.println("Ingrese el titulo del libro");
             tit = sc.next();
@@ -51,8 +51,17 @@ public class Inventario {
             for(int i = 0; i<=Libreria.librosR; i++){
                 if(libro[i].ISBN.equals(isbn)){
                     libro[i].ejemplares += ejemplar;
+                }else{
+                    libro[Libreria.librosR] = new Libro(tit, nomA, apllA, editorial, isbn, fechaC, precio, vendidosDia, ejemplar);
+                    Libreria.librosR += 1;
                 }
             }
+
+            System.out.println("¿Desea agregar otro libro?");
+            opcion = sc.next();
+            if(!opcion.equalsIgnoreCase("si"))
+                salir = false;
+            
         }
 
 
