@@ -6,22 +6,20 @@ public class Inventario {
     //ordena alfabeticamente
     public void ordenarInventario(Libro[]libro){
         int mn;
-        String menor;
         Libro aux;
         
-        for (int i = 0; i < Libreria.librosR; i++) {
-            menor = libro[i].titulo;
-            mn = i;
-            for (int j = i + 1; j < Libreria.librosR; j++) {
-                if(menor.compareTo(libro[j].titulo)>0){
-                    mn = j;
-                    
-                }
-                aux = libro[i];
-                libro[i] = libro[mn];
-                libro[mn] = aux;
+        for (int i = 0; i < Libreria.librosR - 1; i++) {
+        mn = i;
+        for (int j = i + 1; j < Libreria.librosR; j++) {
+            if (libro[j].titulo.compareTo(libro[mn].titulo) < 0) {
+                mn = j;
             }
         }
+        // Intercambiar los elementos después de encontrar el menor
+        aux = libro[i];
+        libro[i] = libro[mn];
+        libro[mn] = aux;
+    }
     }
 
     //agregar libros
@@ -217,7 +215,7 @@ public class Inventario {
                         }
                     }
                 }
-                System.out.println("¿Desea vender otro libro?");
+                System.out.println("¿Desea vender otro libro? (si/no)");
                 decision = sc.nextLine();
                 if (decision.equalsIgnoreCase("si")) {
                     break;
@@ -318,6 +316,15 @@ public class Inventario {
             }
         }
         
+    }
+
+    //Mostrar todos los libros en inventario
+    public void mostrarLibros(Libro[]libros){
+        System.out.println("Los libros en inventario son:");
+        System.out.println("");
+        for(int i = 0; i<Libreria.librosR; i++){
+            System.out.println("Libro: "+libros[i].titulo);
+        }
     }
 }
 
