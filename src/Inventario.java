@@ -1,6 +1,7 @@
 import java.util.Scanner;
 public class Inventario {
 
+    
     Scanner sc = new Scanner(System.in);
     //ordena alfabeticamente
     public void ordenarInventario(Libro[]libro){
@@ -93,7 +94,7 @@ public class Inventario {
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             for(int i = 0; i<Libreria.librosR; i++){
-                if(libro[i].ISBN.equals(isbn)){
+                if(libro[i].ISBN.equals(isbn) && libro[i].titulo.equals(tit)){
                     libro[i].ejemplares += ejemplar;
                     existe = true;
                     break;
@@ -104,12 +105,13 @@ public class Inventario {
                     libro[Libreria.librosR] = new Libro(tit, nomA, apllA, editorial, isbn, fechaC, precio, vendidosDia, ejemplar, estado);
                     Libreria.librosR ++;
                 }else{
-                    System.out.println("NO HAY MAS ESPACIOS PARA LIBROS, VERIFIQUE EL ISBN SI QUIERE AGREGAR CANTIDADES EXISTENTES");
+                    System.out.println("NO HAY MAS ESPACIOS PARA LIBROS, VERIFIQUE EL ISBN Y TITULO SI QUIERE AGREGAR CANTIDADES EXISTENTES");
                 }
             }
 
             System.out.println("¿Desea agregar otro libro?");
             opcion = sc.next();
+            sc.nextLine();
             if(!opcion.equalsIgnoreCase("si"))
                 salir = false;    
         }
@@ -131,22 +133,52 @@ public class Inventario {
 
     //venta de libros
     public void venderLibros(Libro[]libro){
+
         String comprar, decision;
         int unidades, i;
-        boolean comprobar = true, encontrado = false;
+        boolean comprobar = true, encontrado;
 
         while(comprobar){
+            encontrado = false;
             System.out.println("Ingrese el titulo del libro que desea vender: ");
-            comprar = sc.next();
+            comprar = sc.nextLine();
             for(i = 0; i<Libreria.librosR; i++){
                 if(comprar.equalsIgnoreCase(libro[i].titulo)){
                     encontrado = true;
                     break;
                 }
             }
+            while(true){
+                if(!encontrado){
+                    System.out.println("Libro no encontrado,¿Quiere intentar de nuevo? (si/no)");
+                    decision = sc.nextLine();
+                    if(decision.equalsIgnoreCase("no") || decision.equalsIgnoreCase("si")){
+                        if(decision.equalsIgnoreCase("si")){
+                            encontrado = false;
+                            break;
+                        }else{
+                            if(decision.equalsIgnoreCase("no")){
+                                comprobar = false;
+                                break;
+                            }else{
+                                System.out.println("Entrada no valida, elija si o no");
+                            }
+                        }
+                    }
+                }
+            }
+            
             while(encontrado){
                 System.out.println("Ingrese la cantidad de unidades del libro que desea vender");
-                unidades = sc.nextInt();
+                try {
+                    unidades = sc.nextInt();
+                    sc.nextLine();
+                }catch (Exception e){
+                    System.out.println("Ingrese un dato valido");
+                    sc.next();
+                    continue;
+                }
+                
                 if(unidades>libro[i].ejemplares && libro[i].estado==2){
                     System.out.println("La cantidad que se quiere vender excede las unidades disponibles");
                     System.out.println("Se quiere vender "+unidades);
@@ -156,6 +188,7 @@ public class Inventario {
                     if(unidades>libro[i].ejemplares && libro[i].estado==1){
                         int aux = libro[i].ejemplares;
                         libro[i].ejemplares -= unidades;
+                        libro[i].vendidosDia += unidades;
                         if(libro[i].ejemplares<0){
                             System.out.println("Esta venta excede las unidades disponibles en inventario, pero es reimprimible, por lo que se deben de pedir "+(-1*libro[i].ejemplares)+" unidades a la editorial "+libro[i].editorial);
                             System.out.println("Se pudieron vender al instante "+ aux+" unidades");
@@ -163,12 +196,13 @@ public class Inventario {
                     }else{
                         if(unidades<=libro[i].ejemplares){
                             libro[i].ejemplares -= unidades;
+                            libro[i].vendidosDia += unidades;
                             System.out.println("Se vendieron "+unidades+" del libro "+libro[i].titulo);
                         }
                     }                
                 }
                 System.out.println("¿Desea vender otro libro?");{
-                    decision = sc.next();
+                    decision = sc.nextLine();
                     if(decision.equalsIgnoreCase("si")){
                         break;
                     }else{
@@ -181,6 +215,96 @@ public class Inventario {
 
     }
 
+    //buscar libro
+    public void buscarLibro(Libro[]libro){
+        boolean buscarNuevo = true, encontrado;
+        int i;
+        String nombre, decision;
+
+        while (buscarNuevo) {
+            System.out.println("Si desea buscar por título del libro ingrese 1 o si es por nombre del autor ingrese 2");
+            int opcion = sc.nextInt();
+            sc.nextLine(); 
+
+            switch(opcion){
+                case 1:
+                    System.out.println("Ingrese el título del libro a buscar:");
+                    nombre = sc.nextLine();
+                    encontrado = false;
+                    for (i = 0; i<Libreria.librosR; i++) {
+                        if (libro[i].titulo.equalsIgnoreCase(nombre)) {
+                            System.out.println("Libro encontrado:");
+                            System.out.println("titulo: "+libro[i].titulo+" | Autor: "+libro[i].nombreA +" "+libro[i].apellidoA);
+                            encontrado = true;
+                            break;
+                        }else{
+                            System.out.println("No se encontró libro.");
+                        } 
+                    }
+                    if(encontrado){
+                        if(libro[i].estado==1 && libro[i].ejemplares<0){
+                            System.out.println("Libro disponible pero se debe de mandar a reimprimir con la editorial "+libro[i].editorial);
+                        }else{
+                            if(libro[i].ejemplares>0){
+                                System.out.println("Libro disponible");
+                            }
+                        }
+                    }
+                    break;
+                case 2: //terminar
+                System.out.println("Ingrese el autor del libro a buscar:");
+                    nombre = sc.nextLine();
+                    encontrado = false;
+                    for (i = 0; i<Libreria.librosR; i++) {
+                        if (libro[i].nombreA.equalsIgnoreCase(nombre)) {
+                            System.out.println("Libro encontrado:");
+                            System.out.println("titulo: "+libro[i].titulo+" | Autor: "+libro[i].nombreA +" "+libro[i].apellidoA);
+                            encontrado = true;
+                            break;
+                        }else{
+                            System.out.println("No se encontró este autor.");
+                        }  
+                    }
+                    if(encontrado){
+                        if(libro[i].estado==1 && libro[i].ejemplares<0){
+                            System.out.println("Libro disponible pero se debe de mandar a reimprimir con la editorial "+libro[i].editorial);
+                        }else{
+                            if(libro[i].ejemplares>0){
+                                System.out.println("Libro disponible");
+                            }
+                        }
+                    }
+                    break;    
+            }
+            while(true){
+                System.out.println("¿Desea buscar de nuevo? (si/no)");
+                decision = sc.next();
+                if(decision.equalsIgnoreCase("no") || decision.equalsIgnoreCase("si")){
+                    if(decision.equalsIgnoreCase("no")){
+                        buscarNuevo = false;
+                        break;
+                    }else{
+                        if(decision.equalsIgnoreCase("si"))
+                            break;
+                    }
+                }else{
+                    System.out.println("opcion no valida");
+                }
+            }
+            
+        }
+    }
+
+    //Mostrar libros vendidos
+    public void listaVendidos(Libro[]libros){
+        System.out.println("La lista de libros vendidos es");
+        for (int i = 0; i < Libreria.librosR; i++) {
+            if(libros[i].vendidosDia>0){
+                System.out.println("libro: "+libros[i].titulo+ " | Ventas del dia: "+libros[i].vendidosDia);
+            }
+        }
+        
+    }
 }
 
 
